@@ -1,23 +1,17 @@
 import React, {useState} from 'react';
 
 export default function Name(props) {
-    const[name, setName]= useState(" ")
+    const[name, setName]= useState(props.value)
     
     function handleChange(e){
         setName(e.target.value);
+        props.edit==="Save"?props.edit="Edit":props.edit="Edit";
     }
     
-    function handleSubmit(e){
-        e.preventDefault();
-        props.changeName(name);
-        setName("");
-      }
-
     return(
-        <form onSubmit={handleSubmit}>
+        <form>
         <div id='name'>
-            <div id="username">Username</div>
-            <div id="alias">beautifulduck605</div>
+            <div id="username">{props.id}</div>
             <div id="realName">
             <input
                 type="text"
@@ -25,13 +19,13 @@ export default function Name(props) {
                 className="input input__lg"
                 name="text"
                 autoComplete="off"
-                value={name}
+                value={props.value}
                 onChange={handleChange}
             />
             </div>
             <div id="saveName">
                 <button type="submit" className="btn btn__primary btn__lg">
-                    Save
+                    {props.edit}
                 </button> 
             </div>
         </div>

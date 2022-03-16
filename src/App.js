@@ -3,101 +3,119 @@ import './App.css';
 import React, {useEffect, useState} from 'react'; 
 import Name from './components/Name';
 import Heading from './components/Heading';
-async function personalData(){
-  let response= await fetch("https://randomuser.me/api/");
-  let myData= await response.json();
-  console.log(myData);
-  return myData;
-}
+import moment from 'moment';
+
+
+// export default () => {
+//   const [person, setPerson] = useState(null);
+
+//   // Similar to componentDidMount and componentDidUpdate:
+//   useEffect(async () => {
+//     const response = await fetch("https://randomuser.me/api/");
+//     const data = await response.json();
+//     const [item] = data.results;
+//     setPerson(item);
+//     // setLoading(false);
+//   }, []);
+
+//   // return { data, loading };
+//   return (
+//     <div>
+//       <Name name={person && {person.name.first}} />
+//       {/* <p>You clicked {count} times</p>
+//       <button onClick={() => setCount(count + 1)}>Click me</button> */}
+//       {person&&<div>{person.name.first} {person.name.last}</div>}
+//       {person&&<div>{person.login.username}</div>}
+//     </div>
+//   );
+// };
 
 export default function App() {
 
   const[userData, setUserData]= useState({});
-  const[userName, setUserName]= useState('');
+  const[fullName, setFullName]= useState('');
+  const[image, setImage]= useState('');
+  const[userName, setUserName]=useState("");
+  const[email, setEmail]=useState('');
+  const[gender, setGender]=useState('');
+  const[dob, setDob]=useState('');
+  const[cell, setCell]=useState('');
+  const[add, setAdd]=useState('');
+  const[isEdit, setIsEdit]=useState(false);
 
-  function setDetails(){
-    console.log(userData);
-    setUserName(userData?.results[0]?.name?.first);
+  
+  async function personalData(){
+    let response= await fetch("https://randomuser.me/api/");
+    let myData= await response.json();
+    //console.log(myData);
+    return myData;
   }
+  
 
   useEffect(()=> {
       async function fetchData() {
       let tempUserData = await personalData();
+      //console.log(tempUserData);
       setUserData(tempUserData);
     }
-    personalData();
+    fetchData();
   }, [])
+
+  async function setDetails(){
+    console.log(userData);
+    setFullName(userData.results[0].name.title+" "+userData.results[0].name.first+" "+userData.results[0].name.last);
+    setImage(userData.results[0].picture.large);
+    setUserName(userData.results[0].login.username);
+    setEmail(userData.results[0].email);
+    setGender(userData.results[0].gender);
+    setDob(moment(userData.results[0].dob.date).format('DD-MM-YYYY'));
+    setCell(userData.results[0].cell);
+    setAdd(userData.results[0].location.street.number+", "+userData.results[0].location.street.name+", "+userData.results[0].location.city+", "+userData.results[0].location.state+", "+userData.results[0].location.country+", "+userData.results[0].location.postcode);
+
+  }
 
   useEffect(setDetails, [userData]);
 
   return(
     <div>
-      <h1>{userName}</h1>
+      <Heading fullName={fullName} image={image} edit="Edit" />
+      <Name id="USERNAME" value= {userName}  edit="Edit"/>
+      <Name id="DATE OF BIRTH" value= {dob} edit="Edit"/>
+      <Name id="GENDER" value= {gender}  edit="Edit"/>
+      <Name id="CONTACT NO." value= {cell} edit="Edit"/>
+      <Name id="EMAIL" value= {email} edit="Edit"/>
+      <Name id="ADDRESS" value= {add}  edit="Edit"/>
     </div>
   )
 }
 
-// function App(props) {
-
-//   const[user,setUser]= React.useState([]);
-//   const[userName,setUserName]= React.useState('');
-
-//   React.useEffect(
-//   async function fetchData(){
-//     let tempUser= await personalData();
-//     setUser(tempUser);
-//   }
-//   ,[]
-//   )
-//   function setDetails() {
-//     console.log(user);
-//     setUserName(user?.name?.first);
-//   }
-//   setDetails();
-//   useEffect(setDetails, [user]);
-//   return (
-//     <div>
-//       <p>{userName}</p>
-//     </div>
-//   );
-// }
-
 // export default function App() {
-//   const [posts, setPosts] = useState([]);
-//   const fetchPost = async () => {
-//   const response = await fetch(
-//       "https://randomuser.me/api/"
-//     );
-//    const data = await response.json();
-//     setPosts(data);
-//   };
 
-//   useEffect(() => {
-//     fetchPost();
-//   }, []);
-//   return (
-//     <div className="App">
-//     <p> {posts.results[0].cell} </p>
-//       <button onClick={fetchPost}> get new joke </button>
-//     </div>
-//   );
-// }
+//   const[userData, setUserData]= useState({});
+//   const[userName, setUserName]= useState('');
 
-// function App() {
-
-//   function changeName(name) {
-//     alert(name);
-//     const newName= name;
+//   function setDetails(){
+//     console.log(userData);
+//     setUserName(userData?.name?.first);
 //   }
+
+//   useEffect(()=> {
+//       async function fetchData() {
+//       let tempUserData = await personalData();
+//       setUserData(tempUserData);
+//     }
+//     personalData();
+//   }, [])
+
+//   useEffect(setDetails, [userData]);
+//   //console.log(userData?.name?.first);
 //   return(
-//   <div>
-//   <Heading />
-//   <Name />
-//   </div>
-  
+//     <div>
+//       {userData &&<div>{userData?.name?.first}</div>}
+//     </div>
 //   )
 // }
 
-// export default App;
+
 
 
