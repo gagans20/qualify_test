@@ -17,7 +17,7 @@ export default function App() {
 
   function setDetails(){
     console.log(userData);
-    setUserName(userData?.results[0]?.name?.first);
+    setUserName(userData?.name?.first);
   }
 
   useEffect(()=> {
