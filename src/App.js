@@ -43,12 +43,18 @@ export default function App() {
   const[add, setAdd]=useState('');
   const[isEdit, setIsEdit]=useState(false);
 
+<<<<<<< HEAD
   
   async function personalData(){
     let response= await fetch("https://randomuser.me/api/");
     let myData= await response.json();
     //console.log(myData);
     return myData;
+=======
+  function setDetails(){
+    console.log(userData);
+    setUserName(userData?.name?.first);
+>>>>>>> 2c1403998e177eb747ec4c5d1e92751e5dd683aa
   }
   
 
