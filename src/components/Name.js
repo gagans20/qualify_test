@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 
-export default function Name(props) {
-    const[name, setName]= useState(props.value)
+export default function Name({id, value, edit}) {
     
+    const[x, setX]= useState({value});
     function handleChange(e){
-        setName(e.target.value);
-        props.edit==="Save"?props.edit="Edit":props.edit="Edit";
+        setX(e.target.value);
+        edit==="Save"?edit="Edit":edit="Edit";
     }
     
     return(
         <form>
         <div id='name'>
-            <div id="username">{props.id}</div>
+            <div id="username">{id}</div>
             <div id="realName">
             <input
                 type="text"
@@ -19,13 +19,13 @@ export default function Name(props) {
                 className="input input__lg"
                 name="text"
                 autoComplete="off"
-                value={props.value}
+                value= {value}
                 onChange={handleChange}
             />
             </div>
             <div id="saveName">
                 <button type="submit" className="btn btn__primary btn__lg">
-                    {props.edit}
+                    {edit}
                 </button> 
             </div>
         </div>
